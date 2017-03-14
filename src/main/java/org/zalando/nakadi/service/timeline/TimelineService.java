@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,11 +170,15 @@ public class TimelineService {
         return topicRepositoryHolder.getTopicRepository(defaultStorage);
     }
 
-    public EventConsumer createEventConsumer(final String clientId, final List<NakadiCursor> positions)
+    public EventConsumer createEventConsumer(@Nullable final String clientId, final List<NakadiCursor> positions)
             throws NakadiException, InvalidCursorException {
         final MultiTimelineEventConsumer result = new MultiTimelineEventConsumer(clientId, this, timelineSync);
         result.reassign(positions);
         return result;
+    }
+
+    public EventConsumer.ReassignableEventConsumer createEventConsumer(@Nullable final String clientId) {
+        return new MultiTimelineEventConsumer(clientId, this, timelineSync);
     }
 
     private void switchTimelines(final Timeline activeTimeline, final Timeline nextTimeline) {
