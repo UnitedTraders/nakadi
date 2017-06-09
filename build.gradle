@@ -124,6 +124,7 @@ dependencies {
     compile 'com.google.guava:guava:19.0'
     compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
     compile 'ch.qos.logback:logback-classic:1.1.6'
+    compile 'org.slf4j:log4j-over-slf4j:1.7.24'
     compile 'com.github.pukkaone:logback-gelf:1.1.9'
     compile 'com.getsentry.raven:raven-logback:8.0.1'
     compile "io.dropwizard.metrics:metrics-core:$dropwizardVersion"
@@ -137,7 +138,10 @@ dependencies {
 
     // kafka & zookeeper
     compile 'org.apache.kafka:kafka-clients:0.9.0.0'
-    compile 'org.apache.kafka:kafka_2.11:0.9.0.0'
+    compile('org.apache.kafka:kafka_2.11:0.9.0.0') {
+        exclude module: 'slf4j-log4j12'
+        exclude module: 'log4j'
+    }
     compile 'org.apache.curator:curator-framework:2.9.1'
     compile 'org.apache.curator:curator-recipes:2.9.1'
 
