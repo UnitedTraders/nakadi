@@ -1,8 +1,10 @@
 package org.zalando.nakadi;
 
+import com.unitedtraders.metrics.prometheus.EnablePrometheusExporter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@EnablePrometheusExporter
 @SpringBootApplication
 public class Application {
 

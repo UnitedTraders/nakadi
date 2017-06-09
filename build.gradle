@@ -41,6 +41,24 @@ if (project.hasProperty('dockerFile')) {
 
 repositories {
     mavenCentral()
+
+    maven {
+        url "https://nexus.unitedtraders.team/nexus/content/repositories/releases/"
+
+        credentials {
+            username "${auroraUser}"
+            password "${auroraPassword}"
+        }
+    }
+
+    maven {
+        url "https://nexus.unitedtraders.team/nexus/content/repositories/snapshots/"
+
+        credentials {
+            username "${auroraUser}"
+            password "${auroraPassword}"
+        }
+    }
 }
 
 sourceSets {
@@ -127,6 +145,7 @@ dependencies {
     compile 'org.slf4j:log4j-over-slf4j:1.7.24'
     compile 'com.github.pukkaone:logback-gelf:1.1.9'
     compile 'com.getsentry.raven:raven-logback:8.0.1'
+    compile 'com.unitedtraders:actuator-dropwizard-prometheus-exporter:1.3.0'
     compile "io.dropwizard.metrics:metrics-core:$dropwizardVersion"
     compile "com.ryantenney.metrics:metrics-spring:$dropwizardVersion"
     compile "io.dropwizard.metrics:metrics-servlets:$dropwizardVersion"
