@@ -67,18 +67,6 @@ public class NakadiConfig {
     }
 
     @Bean
-    public MetricRegistry metricRegistry() {
-        final MetricRegistry metricRegistry = new MetricRegistry();
-
-        metricRegistry.register("jvm.gc", new GarbageCollectorMetricSet());
-        metricRegistry.register("jvm.buffers", new BufferPoolMetricSet(ManagementFactory.getPlatformMBeanServer()));
-        metricRegistry.register("jvm.memory", new MemoryUsageGaugeSet());
-        metricRegistry.register("jvm.threads", new ThreadStatesGaugeSet());
-
-        return metricRegistry;
-    }
-
-    @Bean
     public SystemProperties systemProperties(final ApplicationContext context) {
         return name -> context.getEnvironment().getProperty(name);
     }
