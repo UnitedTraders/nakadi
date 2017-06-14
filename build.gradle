@@ -9,6 +9,7 @@ apply plugin: "jacoco"
 apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'project-report'
+apply plugin: 'maven-publish'
 
 group 'org.zalando'
 sourceCompatibility = 1.8
@@ -44,8 +45,8 @@ repositories {
     mavenCentral()
 
     maven {
+        name "aurora-release"
         url "https://nexus.unitedtraders.team/nexus/content/repositories/releases/"
-
         credentials {
             username "${auroraUser}"
             password "${auroraPassword}"
@@ -53,8 +54,8 @@ repositories {
     }
 
     maven {
+        name "aurora-snapshot"
         url "https://nexus.unitedtraders.team/nexus/content/repositories/snapshots/"
-
         credentials {
             username "${auroraUser}"
             password "${auroraPassword}"
@@ -385,4 +386,26 @@ checkstyle {
 
 task checkstyle {
     dependsOn checkstyleMain, checkstyleTest, checkstyleAcceptanceTest
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'com.unitedtraders.luna'
+            artifactId 'nakadi'
+            version '1.0.0-R2017_06_08_UT_CUSTOM'
+
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            url "https://nexus.unitedtraders.team/nexus/content/repositories/releases/"
+            credentials {
+                username "${auroraUser}"
+                password "${auroraPassword}"
+            }
+        }
+    }
 }
