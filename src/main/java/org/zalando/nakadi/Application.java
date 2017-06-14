@@ -1,9 +1,11 @@
 package org.zalando.nakadi;
 
+import com.unitedtraders.metrics.prometheus.EnablePrometheusExporter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+@EnablePrometheusExporter
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.zalando.nakadi", "org.zalando.nakadi.config"})
 public class Application {

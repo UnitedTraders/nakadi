@@ -110,7 +110,7 @@ public abstract class EventStreamTest {
         thread.join();
     }
 
-    @Test(timeout = 10000)
+    @Test(timeout = 30000)
     public void whenCrutchWorkedThenStreamIsClosed() throws NakadiException, InterruptedException, IOException {
         final EventStreamConfig config = EventStreamConfig
                 .builder()
