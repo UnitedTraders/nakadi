@@ -77,13 +77,6 @@ public class MetricsConfig {
     @Bean
     @Primary
     public MetricRegistry metricRegistry() {
-        final MetricRegistry metricRegistry = new MetricRegistry();
-
-        metricRegistry.register("jvm.gc", new GarbageCollectorMetricSet());
-        metricRegistry.register("jvm.buffers", new BufferPoolMetricSet(ManagementFactory.getPlatformMBeanServer()));
-        metricRegistry.register("jvm.memory", new MemoryUsageGaugeSet());
-        metricRegistry.register("jvm.threads", new ThreadStatesGaugeSet());
-
-        return metricRegistry;
+        return new MetricRegistry();
     }
 }
