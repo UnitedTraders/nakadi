@@ -22,19 +22,23 @@ public class Aruha771MigrationHelper {
     private final String pass;
 
     public static void main(final String[] args) throws Exception {
+        if (args.length != 3) {
+            System.err.println("Pass args: <nakadi DB url> <username> <password>");
+            System.exit(1);
+        }
         final Aruha771MigrationHelper helper = new Aruha771MigrationHelper(
                 new HashGenerator(),
-                new JsonConfig().jacksonObjectMapper());
+                new JsonConfig().jacksonObjectMapper(), args[0], args[1], args[2]);
         helper.fillSubscriptionsHashes();
     }
 
-    public Aruha771MigrationHelper(final HashGenerator hashGenerator, final ObjectMapper jsonMapper) throws Exception {
+    public Aruha771MigrationHelper(final HashGenerator hashGenerator, final ObjectMapper jsonMapper,
+                                   final String dbUrl, final String dbUser, final String dbPass) throws Exception {
         this.hashGenerator = hashGenerator;
         this.jsonMapper = jsonMapper;
-
-        url = "jdbc:postgresql://localhost:5432/local_nakadi_db";
-        user = "nakadi";
-        pass = "nakadi";
+        user = dbUser;
+        url = dbUrl;
+        pass = dbPass;
         Class.forName("org.postgresql.Driver").newInstance();
     }
 

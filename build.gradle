@@ -69,13 +69,6 @@ sourceSets {
         }
         resources.srcDir file('src/acceptance-test/resources')
     }
-    dbMigration {
-        java {
-            compileClasspath += main.output
-            runtimeClasspath += main.output
-            srcDir file('src/db-migration/java')
-        }
-    }
 }
 
 buildscript {
