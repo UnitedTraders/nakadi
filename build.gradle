@@ -9,16 +9,13 @@ apply plugin: "jacoco"
 apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'project-report'
-apply plugin: 'maven-publish'
+apply plugin: 'maven'
 
 group 'org.zalando'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 mainClassName = 'org.zalando.nakadi.Application'
-springBoot {
-    layout = "ZIP"
-}
 
 def dockerGroup = "aruha"
 def dockerApplicationName = "nakadi"
@@ -111,6 +108,7 @@ configurations {
     dbMigrationCompile.extendsFrom compile
     dbMigrationRuntime.extendsFrom runtime
     pgsql
+    deployerJars
 }
 
 findbugs {
@@ -388,23 +386,33 @@ task checkstyle {
     dependsOn checkstyleMain, checkstyleTest, checkstyleAcceptanceTest
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId 'com.unitedtraders.luna'
-            artifactId 'nakadi'
-            version '1.0.0-R2017_06_08_UT_CUSTOM'
-
-            from components.java
-        }
-    }
-
+uploadArchives {
     repositories {
-        maven {
-            url "https://nexus.unitedtraders.team/nexus/content/repositories/releases/"
-            credentials {
-                username "${auroraUser}"
-                password "${auroraPassword}"
+        mavenDeployer {
+            configuration = configurations.deployerJars
+
+            repository(url: "https://nexus.unitedtraders.team/nexus/content/repositories/releases/") {
+                authentication(userName: "$auroraUser", password: "$auroraPassword")
+            }
+
+            pom {
+                groupId = 'com.unitedtraders.luna'
+                artifactId = 'nakadi'
+                version = '1.0.0-R2017_06_08_UT_CUSTOM'
+
+                project {
+                    dependencyManagement {
+                        dependencies {
+                            dependency {
+                                groupId "org.springframework.boot"
+                                artifactId "spring-boot-dependencies"
+                                version "$springBootVersion"
+                                type "pom"
+                                scope "import"
+                            }
+                        }
+                    }
+                }
             }
         }
     }

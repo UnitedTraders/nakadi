@@ -7,4 +7,9 @@ auroraUser=...
 auroraPassword=...
 ```
 
-Then run `./gradlew publish`
+Then run
+
+```
+./gradlew -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true build uploadArchives -x jar -x test
+
+```
